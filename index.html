@@ -120,6 +120,47 @@
             margin-right: 10px;
         }
 
+        .music-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .music-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .music-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .music-controls {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .music-controls.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .love-letter {
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
@@ -217,6 +258,20 @@
             </ul>
         </div>
 
+        <div class="music-section">
+            <h2 style="color: #667eea; margin-bottom: 15px;">Our Song Playing 🎵</h2>
+            <p style="margin-bottom: 20px;">Listen... this song reminds me of us and how much I love you, sayang</p>
+            <div class="music-controls active">
+                <audio id="ourSong" controls autoplay loop style="width: 100%;">
+                    <source src="Aalaipayuthey Snehithane Song WhatsApp Status tamil 1 Minute Life Story Love....mp3" type="audio/mpeg">
+                    <p>Your browser doesn't support audio playback, but you can still feel all my love through these words! 💕</p>
+                </audio>
+                <p style="margin-top: 10px; font-style: italic; color: #718096;">
+                    Every time I hear this song, I think of you, Kroshiii 💕
+                </p>
+            </div>
+        </div>
+
         <div class="love-letter">
             <h2>A Letter From My Heart</h2>
             <div class="letter-text">
@@ -250,5 +305,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Auto-start music when page loads
+        window.addEventListener('load', function() {
+            const audio = document.getElementById('ourSong');
+            if (audio) {
+                audio.volume = 0.6; // Set volume to 60%
+                audio.play().catch(function(error) {
+                    console.log('Autoplay prevented by browser');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
+
