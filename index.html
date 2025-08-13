@@ -311,12 +311,32 @@
         window.addEventListener('load', function() {
             const audio = document.getElementById('ourSong');
             if (audio) {
-                audio.volume = 0.6; // Set volume to 60%
-                audio.play().catch(function(error) {
-                    console.log('Autoplay prevented by browser');
+                // Unmute and set volume
+                audio.muted = false;
+                audio.volume = 0.6;
+                
+                // Try to play
+                audio.play().then(() => {
+                    console.log('Music started successfully');
+                }).catch(function(error) {
+                    console.log('Autoplay prevented by browser, trying user interaction method');
+                    // If autoplay fails, try again on first user interaction
+                    document.addEventListener('click', function() {
+                        audio.play();
+                    }, { once: true });
                 });
             }
         });
+
+        // Also try to start music on any user interaction
+        document.addEventListener('click', function() {
+            const audio = document.getElementById('ourSong');
+            if (audio && audio.paused) {
+                audio.muted = false;
+                audio.volume = 0.6;
+                audio.play();
+            }
+        }, { once: true });
     </script>
 </body>
 </html>
