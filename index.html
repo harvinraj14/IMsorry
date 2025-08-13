@@ -307,36 +307,35 @@
     </div>
 
     <script>
-        // Auto-start music when page loads
-        window.addEventListener('load', function() {
-            const audio = document.getElementById('ourSong');
-            if (audio) {
-                // Unmute and set volume
-                audio.muted = false;
-                audio.volume = 0.6;
-                
-                // Try to play
-                audio.play().then(() => {
-                    console.log('Music started successfully');
-                }).catch(function(error) {
-                    console.log('Autoplay prevented by browser, trying user interaction method');
-                    // If autoplay fails, try again on first user interaction
-                    document.addEventListener('click', function() {
-                        audio.play();
-                    }, { once: true });
+        // Multiple attempts to start background music
+        function startMusic() {
+            const bgMusic = document.getElementById('backgroundMusic');
+            const visibleMusic = document.getElementById('ourSong');
+            
+            if (bgMusic) {
+                bgMusic.volume = 0.4; // Lower volume for background
+                bgMusic.play().then(() => {
+                    console.log('Background music started');
+                    // Hide visible controls since background is playing
+                    visibleMusic.style.display = 'none';
+                }).catch(() => {
+                    console.log('Background music blocked, showing controls');
+                    // If background fails, show visible controls
+                    visibleMusic.style.display = 'block';
                 });
             }
-        });
+        }
 
-        // Also try to start music on any user interaction
-        document.addEventListener('click', function() {
-            const audio = document.getElementById('ourSong');
-            if (audio && audio.paused) {
-                audio.muted = false;
-                audio.volume = 0.6;
-                audio.play();
-            }
-        }, { once: true });
+        // Try to start music on page load
+        window.addEventListener('load', startMusic);
+        
+        // Try to start music on first user interaction
+        document.addEventListener('click', startMusic, { once: true });
+        document.addEventListener('touchstart', startMusic, { once: true });
+        document.addEventListener('scroll', startMusic, { once: true });
+        
+        // Also try after a short delay
+        setTimeout(startMusic, 1000);
     </script>
 </body>
 </html>
